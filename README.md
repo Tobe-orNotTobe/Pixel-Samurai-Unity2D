@@ -13,7 +13,7 @@ A challenging 2D action platformer built in Unity where players control a skille
 
 ## Core Features
 
-![alt text](image.png)
+![alt text](Imgs/image.png)
 
 ![alt text](image-1.png)
 
