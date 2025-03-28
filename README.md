@@ -3,7 +3,7 @@ A challenging 2D action platformer built in Unity where players control a skille
 
 ### Technical Requirements
     Unity Version: Unity 6000.0.42f1
-- Target Platform: Windows.
+    Target Platform: Windows.
 
 ### Team Members
   _Nguyễn Quang Sơn
