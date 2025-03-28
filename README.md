@@ -15,7 +15,7 @@ A challenging 2D action platformer built in Unity where players control a skille
 
 ![alt text](Imgs/image.png)
 
-![alt text](image-1.png)
+![alt text](Imgs/image-1.png)
 
 ### Player Mechanics
 - **Fluid Movement System**: 
@@ -40,7 +40,7 @@ A challenging 2D action platformer built in Unity where players control a skille
 - **Patrolling System**: Enemies patrol environments, react to player presence
 - **Boss Encounters**: Multi-phase boss battles with special abilities and attack patterns
 
-![alt text](image-2.png)
+![alt text](Imgs/image-2.png)
 
 ### Health & Combat Management
 - **Health System**: Trackable player and enemy health with visual indicators
@@ -48,7 +48,7 @@ A challenging 2D action platformer built in Unity where players control a skille
 - **Stun System**: Enemies can be stunned after taking substantial damage
 - **Combat Animation Integration**: Seamless connection between animations and combat actions
 
-![alt text](image-6.png)
+![alt text](Imgs/image-6.png)
 
 ### Boss Fight System
 - **Two Unique Boss Battles**: Face distinctive boss enemies with different mechanics
@@ -57,11 +57,11 @@ A challenging 2D action platformer built in Unity where players control a skille
 - **Boss Arena Boundaries**: Confined spaces for intense boss confrontations
 - **Scene Progression**: Advance through scenes after defeating bosses
 
-![alt text](image-5.png)
+![alt text](Imgs/image-5.png)
 
-![alt text](image-4.png)
+![alt text](Imgs/image-4.png)
 
-![alt text](image-7.png)
+![alt text](Imgs/image-7.png)
 
 ### Game States
 - **Main Menu**: Start game and access options
@@ -75,7 +75,7 @@ A challenging 2D action platformer built in Unity where players control a skille
 - **Environmental Details**: Responsive background elements enhance world immersion
 - **UI Feedback**: Health bars, healing indicators, and other UI elements provide clear game state
 
-![alt text](image-8.png)
+![alt text](Imgs/image-8.png)
 
 ## Game Flow
 1. Begin at the main menu
@@ -85,7 +85,7 @@ A challenging 2D action platformer built in Unity where players control a skille
 5. Progress to new areas with increasing difficulty
 6. Upon death, return to checkpoints or restart
 
-![alt text](image-3.png)
+![alt text](Imgs/image-3.png)
 
 ## Technical Implementation
 - **State Machine AI**: Sophisticated behavior system for enemies and bosses
