@@ -17,8 +17,6 @@ public class B1_IdleState : IdleState
 	public override void Enter()
 	{
 		base.Enter();
-
-		entity.Flip();
 	}
 
 	public override void Exit()

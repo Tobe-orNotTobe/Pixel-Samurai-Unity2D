@@ -68,6 +68,13 @@ public class GameManager : MonoBehaviour
 	public void PlayerDied()
 	{
 		isGameOver = true;
+
+		// Tạm dừng nhạc khi game over
+		if (AudioManager.Instance != null)
+		{
+			AudioManager.Instance.PauseAllMusic(true);
+		}
+
 		UIManager.Instance.ShowGameOver();
 		StartCoroutine(ShowGameOverButtonsDelayed());
 	}
@@ -85,6 +92,13 @@ public class GameManager : MonoBehaviour
 	{
 		isGamePaused = true;
 		Time.timeScale = 0f;
+
+		// Tạm dừng nhạc khi pause game
+		if (AudioManager.Instance != null)
+		{
+			AudioManager.Instance.PauseAllMusic(true);
+		}
+
 		UIManager.Instance.ShowPauseMenu(true);
 	}
 
@@ -92,6 +106,13 @@ public class GameManager : MonoBehaviour
 	{
 		isGamePaused = false;
 		Time.timeScale = 1f;
+
+		// Tiếp tục nhạc khi resume game
+		if (AudioManager.Instance != null)
+		{
+			AudioManager.Instance.PauseAllMusic(false);
+		}
+
 		UIManager.Instance.ShowPauseMenu(false);
 	}
 
@@ -110,13 +131,25 @@ public class GameManager : MonoBehaviour
 		SceneManager.LoadSceneAsync(MAIN_MENU_SCENE);
 	}
 
-	public void LoadScene(int sceneIndex)
+	public void LoadScene(int sceneIndex, bool skipCutscene = false)
 	{
 		Time.timeScale = 1f;
 		UIManager.Instance.HideAllUI();
 		isGameOver = false;
 		isGamePaused = false;
-		SceneManager.LoadSceneAsync(sceneIndex);
+
+		// Nếu là scene 1 và yêu cầu bỏ qua cutscene
+		if (sceneIndex == 1 && skipCutscene)
+		{
+			// Load scene gameplay (scene 1) trực tiếp
+			SceneManager.LoadSceneAsync(SCENE_1);
+			Debug.Log("Đang load thẳng đến scene gameplay, bỏ qua cutscene");
+		}
+		else
+		{
+			// Flow bình thường, có thể qua cutscene trước
+			SceneManager.LoadSceneAsync(sceneIndex);
+		}
 	}
 
 	public void QuitGame()

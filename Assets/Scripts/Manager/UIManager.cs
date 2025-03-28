@@ -8,7 +8,6 @@ public class UIManager : MonoBehaviour
 	[SerializeField] private GameObject pauseMenuUI;
 	[SerializeField] private GameObject gameOverUI;
 	[SerializeField] private GameObject gameOverButtonsContainer;
-
 	private void Awake()
 	{
 		if (Instance == null)

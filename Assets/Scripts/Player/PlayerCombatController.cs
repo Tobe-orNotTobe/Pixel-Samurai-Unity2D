@@ -26,6 +26,8 @@ public class PlayerCombatController : MonoBehaviour
 	private PlayerController PC;
 	private PlayerStats PS;
 
+	public AudioSource audioSource;  
+	public AudioClip attackSound;
 	private void Start()
 	{
 		anim = GetComponent<Animator>();
@@ -36,7 +38,6 @@ public class PlayerCombatController : MonoBehaviour
 
 	private void Update()
 	{
-		// Don't check combat input if player is healing
 		if (!PC.IsHealing())
 		{
 			CheckCombatInput();
@@ -53,6 +54,13 @@ public class PlayerCombatController : MonoBehaviour
 				gotInput = true;
 				lastInputTime = Time.time;
 			}
+		}
+	}
+	void PlayAttackSound()
+	{
+		if (audioSource != null && attackSound != null)
+		{
+			audioSource.PlayOneShot(attackSound);
 		}
 	}
 

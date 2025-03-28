@@ -20,13 +20,22 @@ public class BossFightManager : MonoBehaviour
 	[Header("UI Settings")]
 	[SerializeField] private BossHealthBar bossHealthBar;
 
+	[Header("Dialogue Settings")]
+	[SerializeField] private BossDialogue boss1Dialogue;
+	[SerializeField] private BossDialogue boss2Dialogue;
+	[SerializeField] private Transform playerDialoguePosition;
+	[SerializeField] private Transform bossDialoguePosition;
+
 	[Header("Trigger Settings")]
 	[SerializeField] private bool activateOnTriggerEnter = true;
 	[SerializeField] private float delayAfterBossDefeat = 3f; // Time before scene change
+	[SerializeField] private float delayBeforeFight = 1f; // Time after dialogue before starting the fight
 
 	private bool isBossFightActive = false;
 	private bool isBossDefeated = false;
+	private bool isDialogueCompleted = false;
 	private GameObject player;
+	private PlayerController playerController;
 
 	private void Start()
 	{
@@ -44,6 +53,23 @@ public class BossFightManager : MonoBehaviour
 		// Turn off boss camera initially
 		if (bossCamera != null)
 			bossCamera.enabled = false;
+
+		// Subscribe to dialogue events
+		if (DialogueManager.Instance != null)
+		{
+			DialogueManager.Instance.OnDialogueStarted += OnDialogueStarted;
+			DialogueManager.Instance.OnDialogueEnded += OnDialogueEnded;
+		}
+	}
+
+	private void OnDestroy()
+	{
+		// Unsubscribe from dialogue events
+		if (DialogueManager.Instance != null)
+		{
+			DialogueManager.Instance.OnDialogueStarted -= OnDialogueStarted;
+			DialogueManager.Instance.OnDialogueEnded -= OnDialogueEnded;
+		}
 	}
 
 	private void Update()
@@ -78,6 +104,12 @@ public class BossFightManager : MonoBehaviour
 			if (bossHealthBar != null)
 				bossHealthBar.HideHealthBar();
 
+			// Dừng nhạc boss và quay trở lại nhạc nền
+			if (AudioManager.Instance != null)
+			{
+				AudioManager.Instance.StopBossMusic();
+			}
+
 			StartCoroutine(HandleBossDefeat());
 		}
 	}
@@ -108,16 +140,13 @@ public class BossFightManager : MonoBehaviour
 		if (activateOnTriggerEnter && collision.CompareTag("Player") && !isBossFightActive && !isBossDefeated)
 		{
 			player = collision.gameObject;
-			StartBossFight();
+			playerController = player.GetComponent<PlayerController>();
+			StartBossCutscene();
 		}
 	}
 
-	public void StartBossFight()
+	private void StartBossCutscene()
 	{
-		if (isBossFightActive || isBossDefeated) return;
-
-		isBossFightActive = true;
-
 		// Enable boss fight boundaries
 		if (boundaryColliders != null)
 			boundaryColliders.SetActive(true);
@@ -128,6 +157,89 @@ public class BossFightManager : MonoBehaviour
 			playerCamera.enabled = false;
 			bossCamera.enabled = true;
 		}
+
+		// Force player and boss into idle state
+		if (playerController != null)
+		{
+			playerController.SetIsHealing(true); // Reusing healing state to prevent movement
+		}
+
+		// Ensure the boss is in idle state too
+		if (boss != null)
+		{
+			if (isBoss1 && boss is Boss1)
+			{
+				Boss1 boss1 = (Boss1)boss;
+				boss1.stateMachine.ChangeState(boss1.idleState);
+			}
+			else if (!isBoss1 && boss is Boss2)
+			{
+				Boss2 boss2 = (Boss2)boss;
+				boss2.stateMachine.ChangeState(boss2.idleState);
+			}
+		}
+
+		// Start dialogue
+		StartCoroutine(StartDialogueAfterDelay(0.5f));
+	}
+
+	private IEnumerator StartDialogueAfterDelay(float delay)
+	{
+		yield return new WaitForSeconds(delay);
+
+		// Start appropriate dialogue
+		BossDialogue dialogueToUse = isBoss1 ? boss1Dialogue : boss2Dialogue;
+		if (dialogueToUse != null && DialogueManager.Instance != null)
+		{
+			DialogueData dialogueData = dialogueToUse.GetDialogueData();
+			DialogueManager.Instance.StartDialogue(dialogueData);
+		}
+		else
+		{
+			// If no dialogue, skip to fight
+			OnDialogueEnded();
+		}
+	}
+
+	private void OnDialogueStarted()
+	{
+		isDialogueCompleted = false;
+		Debug.Log("Dialogue started");
+	}
+
+	private void OnDialogueEnded()
+	{
+		isDialogueCompleted = true;
+		Debug.Log("Dialogue ended");
+
+		// Start the actual boss fight after dialogue
+		StartCoroutine(StartFightAfterDelay());
+	}
+
+	private IEnumerator StartFightAfterDelay()
+	{
+		yield return new WaitForSeconds(delayBeforeFight);
+		StartBossFight();
+	}
+
+	public void StartBossFight()
+	{
+		if (isBossFightActive || isBossDefeated) return;
+
+		isBossFightActive = true;
+
+		// Chuyển từ nhạc nền sang nhạc boss
+		if (AudioManager.Instance != null)
+		{
+			AudioManager.Instance.PlayBossMusic(isBoss1);
+		}
+
+		// Release player from forced idle state
+		if (playerController != null)
+		{
+			playerController.SetIsHealing(false);
+		}
+
 		if (bossHealthBar != null)
 		{
 			bossHealthBar.ShowHealthBar();

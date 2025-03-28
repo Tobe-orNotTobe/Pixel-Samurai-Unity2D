@@ -31,7 +31,7 @@ public class GameOverMenu : MonoBehaviour
 
 	private void RestartGame()
 	{
-		GameManager.Instance.LoadScene(1);
+		GameManager.Instance.LoadScene(1, true);
 	}
 
 	private void GoToMainMenu()

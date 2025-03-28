@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2d316501c4bf56488b1aa88dc2b099d, type: 3}
+  m_Name: Boss2Dialogue
+  m_EditorClassIdentifier: 
+  playerDialogueLines:
+  - Hansho, this ends now. Step away from the boy
+  - The dead do not return, Hansho. What you seek is nothing but an empty shell,
+    a curse disguised as salvation.
+  - You were once an honorable warrior. But now, you've become the very thing we
+    swore to destroy.
+  bossDialogueLines:
+  - "You\u2019re too late, Jiro. The ritual is nearly complete. Soon, the one I lost
+    will return to me\u2026 and nothing will stand in my way."
+  - And what would you know of loss, old friend? Have you ever watched someone slip
+    away before your very eyes, powerless to stop it? I refuse to live in a world
+    where fate decides who lives and who dies!
+  - "Honor is a chain that binds fools. I will shatter those chains\u2026 even if
+    it means cutting you down."
+  playerName: Jiro
+  bossName: Hansho
