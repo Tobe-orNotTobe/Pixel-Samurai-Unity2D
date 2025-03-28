@@ -7,8 +7,11 @@ A challenging 2D action platformer built in Unity where players control a skille
 
 ### Team Members
   _Nguyễn Quang Sơn
+  
   _Võ Lê Đức Anh
+  
   _Phan Đức Hậu
+  
   _Nguyễn Minh Thành
 
 ## Core Features
